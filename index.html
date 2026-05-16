@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LaTeX Studio">
+  <meta name="theme-color" content="#0f0f0f">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>LaTeX Studio</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-logo">
+    <div class="splash-mark">Lx</div>
+    <span class="splash-name">LaTeX Studio</span>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app" class="hidden">
+
+  <!-- TOP NAV -->
+  <header id="topnav">
+    <button id="btn-back-nav" class="nav-icon-btn hidden" onclick="App.navBack()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div id="nav-title-area">
+      <span id="nav-title">Projectes</span>
+      <span id="nav-subtitle" class="hidden"></span>
+    </div>
+    <button id="btn-nav-action" class="nav-icon-btn hidden" onclick="App.navAction()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+    </button>
+  </header>
+
+  <!-- SCREENS -->
+  <main id="main-content">
+
+    <!-- SCREEN: PROJECTS LIST -->
+    <div id="screen-projects" class="screen active">
+      <div class="projects-header">
+        <h1>Els meus projectes</h1>
+        <p class="subtitle">Documents LaTeX generats</p>
+      </div>
+      <div id="projects-empty" class="empty-state">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <p>Encara no tens cap projecte</p>
+        <span>Crea el primer document LaTeX</span>
+      </div>
+      <div id="projects-list" class="projects-list hidden"></div>
+      <button class="fab" onclick="App.newProject()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nou projecte
+      </button>
+    </div>
+
+    <!-- SCREEN: STEP FLOW -->
+    <div id="screen-steps" class="screen">
+
+      <!-- Stepper -->
+      <div class="stepper-wrap">
+        <div class="stepper">
+          <div class="step-item active" id="step-1">
+            <div class="step-dot"><span>1</span></div>
+            <div class="step-label">Contingut</div>
+          </div>
+          <div class="step-line" id="line-1-2"></div>
+          <div class="step-item" id="step-2">
+            <div class="step-dot"><span>2</span></div>
+            <div class="step-label">Referència</div>
+          </div>
+          <div class="step-line" id="line-2-3"></div>
+          <div class="step-item" id="step-3">
+            <div class="step-dot"><span>3</span></div>
+            <div class="step-label">Previsualitza</div>
+          </div>
+          <div class="step-line" id="line-3-4"></div>
+          <div class="step-item" id="step-4">
+            <div class="step-dot"><span>4</span></div>
+            <div class="step-label">Exporta</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step panels -->
+      <div class="step-panels">
+
+        <!-- STEP 1: Content & Data -->
+        <div id="panel-1" class="step-panel active">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Documents PDF dels apunts
+              </div>
+              <button class="card-action-btn" onclick="Steps.addPDF()">+ Afegir</button>
+            </div>
+            <div id="pdf-drop-zone" class="upload-zone" onclick="Steps.addPDF()">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+              <span>Puja els PDFs dels teus apunts</span>
+              <small>Un fitxer per tema · Màx. 50 MB</small>
+            </div>
+            <div id="pdf-list" class="file-list"></div>
+            <input type="file" id="pdf-input" accept=".pdf" multiple style="display:none" onchange="Steps.handlePDFs(this)">
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Dades del document
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="form-field full">
+                <label>Assignatura</label>
+                <input type="text" id="f-subject" placeholder="ex. Càlcul I" oninput="Steps.saveField()">
+              </div>
+              <div class="form-field">
+                <label>Codi</label>
+                <input type="text" id="f-code" placeholder="MAT101" oninput="Steps.saveField()">
+              </div>
+              <div class="form-field">
+                <label>Curs</label>
+                <input type="text" id="f-year" placeholder="2025–26" oninput="Steps.saveField()">
+              </div>
+              <div class="form-field full">
+                <label>Títol del tema</label>
+                <input type="text" id="f-title" placeholder="ex. Tema 3: Càlcul integral" oninput="Steps.saveField()">
+              </div>
+              <div class="form-field full">
+                <label>Autor</label>
+                <input type="text" id="f-author" placeholder="El teu nom" oninput="Steps.saveField()">
+              </div>
+              <div class="form-field full">
+                <label>Professor / Font</label>
+                <input type="text" id="f-professor" placeholder="ex. Dra. Laia Ferrer" oninput="Steps.saveField()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Visual Reference -->
+        <div id="panel-2" class="step-panel">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Document de referència visual
+              </div>
+              <button class="card-action-btn" onclick="Steps.addRef()">+ Afegir</button>
+            </div>
+            <p class="card-desc">Adjunta el PDF o imatges del document amb el template que t'agrada. L'app en copiarà l'estil.</p>
+            <div id="ref-drop-zone" class="upload-zone" onclick="Steps.addRef()">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Puja el PDF de referència</span>
+              <small>ex. el teu TFG, apunts anteriors</small>
+            </div>
+            <div id="ref-list" class="file-list"></div>
+            <input type="file" id="ref-input" accept=".pdf,image/*" multiple style="display:none" onchange="Steps.handleRefs(this)">
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+                Estil del template
+              </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom:14px">
+              <label>Tipografia</label>
+              <div class="pill-group" id="font-group">
+                <button class="pill active" data-val="serif" onclick="Steps.selectPill(this,'font-group')">Serif clàssic</button>
+                <button class="pill" data-val="sans" onclick="Steps.selectPill(this,'font-group')">Sans-serif</button>
+                <button class="pill" data-val="mono" onclick="Steps.selectPill(this,'font-group')">Monospace</button>
+              </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom:14px">
+              <label>Paleta de colors</label>
+              <div class="color-grid" id="color-group">
+                <button class="color-opt active" data-val="blue" onclick="Steps.selectColor(this)">
+                  <span class="color-swatch" style="background:#1a4a8a"></span>
+                  Blau UAB
+                </button>
+                <button class="color-opt" data-val="green" onclick="Steps.selectColor(this)">
+                  <span class="color-swatch" style="background:#1a6b3a"></span>
+                  Verd fosc
+                </button>
+                <button class="color-opt" data-val="gray" onclick="Steps.selectColor(this)">
+                  <span class="color-swatch" style="background:#3a3a3a"></span>
+                  Grayscale
+                </button>
+                <button class="color-opt" data-val="purple" onclick="Steps.selectColor(this)">
+                  <span class="color-swatch" style="background:#5a3a8a"></span>
+                  Morat
+                </button>
+              </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom:14px">
+              <label>Marges</label>
+              <div class="pill-group" id="margin-group">
+                <button class="pill active" data-val="normal" onclick="Steps.selectPill(this,'margin-group')">Normal (2.5cm)</button>
+                <button class="pill" data-val="wide" onclick="Steps.selectPill(this,'margin-group')">Amplis (3cm)</button>
+                <button class="pill" data-val="narrow" onclick="Steps.selectPill(this,'margin-group')">Estrets (2cm)</button>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label>Descripció addicional</label>
+              <textarea id="f-design-notes" rows="3" placeholder="ex. Vull caixes verdes pels teoremes, capçalera negra, peu de pàgina centrat..." oninput="Steps.saveField()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Preview -->
+        <div id="panel-3" class="step-panel">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Previsualització del template
+              </div>
+              <span class="card-badge" id="preview-page-indicator">pàg. 1</span>
+            </div>
+            <div id="preview-container"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+                Elements aplicats
+              </div>
+            </div>
+            <div id="elements-list" class="elements-list"></div>
+            <button class="btn-secondary full-w" onclick="App.goStep(2)" style="margin-top:12px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Modificar el disseny
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Export -->
+        <div id="panel-4" class="step-panel">
+          <div class="card success-card">
+            <div class="success-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Fitxers generats</h3>
+            <p>El teu template LaTeX està llest</p>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                Fitxers LaTeX
+              </div>
+            </div>
+            <div id="output-files" class="output-files"></div>
+            <button class="btn-primary full-w" id="btn-download-zip" onclick="Export.downloadZip()" style="margin-top:12px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Descarregar tot (.zip)
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="card-head-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Codi LaTeX (.tex)
+              </div>
+              <button class="card-action-btn" onclick="Export.copyTex()">Copiar</button>
+            </div>
+            <div id="code-preview" class="code-preview"></div>
+          </div>
+
+          <button class="btn-secondary full-w" onclick="App.newProject()" style="margin: 0 0 32px">
+            + Nou projecte
+          </button>
+        </div>
+
+      </div><!-- /step-panels -->
+
+      <!-- Bottom bar with nav buttons -->
+      <div class="bottom-bar">
+        <button id="btn-prev" class="btn-secondary" onclick="App.prevStep()" style="display:none">← Enrere</button>
+        <button id="btn-next" class="btn-primary" onclick="App.nextStep()">Veure referència →</button>
+      </div>
+
+    </div><!-- /screen-steps -->
+
+  </main>
+</div><!-- /app -->
+
+<script src="js/storage.js"></script>
+<script src="js/latex.js"></script>
+<script src="js/steps.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
